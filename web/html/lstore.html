@@ -1,0 +1,115 @@
+<html>
+<head>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  
+ <meta http-equiv="refresh" content="900">
+ <style>
+ 
+	#m1{
+		font-family: "Times New Roman", Times, serif;
+		font-size: 25px;
+	}
+ 
+	#lStore{
+		align-content: center;
+		height : 50px;
+		width : 300px;
+		border-style : solid;
+		
+	} 
+	
+	#inside {
+		margin-top : 10px;
+		margin-left : 10px;
+	}
+	
+	a:link{
+		text-decoration:none;
+	}
+	a:hover{
+		background-color:#bed3f4;
+	}
+	
+	@keyframes bColor {
+		from {background-color: #6bff81;}
+		50% {background-color: #02930b;}
+		to {background-color: #6bff81;}
+	}
+	
+	
+	#restart {
+		animation-name : bColor;
+		animation-duration : 4s;
+		animation-iteration-count: 5 /*infinite*/;
+		
+	}
+ </style>
+</head>
+<body>
+
+<p id="m1"style="margin:5px"> <a id="alst" title="Click here for lStore Info" href="http://www.accre.vanderbilt.edu/?page_id=74"> LStore Services </a></p>
+<div id="lStore">
+<div id="inside">
+<button id="restart">Restart</button>
+<button id="cleanUp">Clean Up</button>
+<button id="start">Start</button>
+</div>
+</div>
+<!-- If, its a restart, client sends the label restart, get the date, change the text -->
+<a style="margin-left:10px; margin-top:10px" href="Restart_date.txt"> RestartLogDate </a>
+
+<script>
+
+$("#restart").on("click", function(e){
+
+	$("#cleanUp, #start").attr("disabled", "disabled");
+	$("#restart").css("animation-play-state:paused");
+	// Call an ajax query, that returns the exit code from 
+	// the server, it it's ok, then enable the button
+		
+		
+		$.ajax({
+		type: "POST", 
+		url: "./testCGI.py",
+		//dataType : "application/json",
+		data : {"a":"2"},
+		success : function(data){
+			console.log("this data returned from the script stdout: ");
+			//typeof data + 
+			//" keys: " + Object.keys(data) + 
+			//" values: " + Object.values(data)
+			
+			// Stop the animation
+			//$("#result").stop()
+			
+			// Append the log file to the href
+			
+		}//close:success
+	});
+	
+});
+
+$("#cleanUp").on("click", function(e){
+	$("#restart, #start").removeAttr("disabled", "disabled");
+
+	// Call an ajax query, that returns the exit code from 
+	// the server, it it's ok, then enable the button
+	$("#restart").stop(true, true);
+});
+
+
+</script>
+
+<p id="date1"></p>
+<p id="d"> Date </p>
+
+<script> document.getElementById("date1").innerHTML = Date() </script>
+
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+AuthName "Member's Area Name"
+AuthUserFile /home/ravi/web/html/.htpasswd
+AuthType Basic
+Require valid-user
+AddHandler cgi-script .py
+Options +ExecCGI
+
